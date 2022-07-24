@@ -1,7 +1,7 @@
 const express = require('express');
 const Battery = require('./lib/battery');
 const Speed = require('./lib/speed')
-const fake_data = require('./lib/fake_data');
+// const fake_data = require('./lib/fake_data');
 const app = express();
 const port = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 battery_info = new Battery();
 speed_info = new Speed();
 
-fake_data(`http://localhost:${port}`);
+// fake_data(`http://localhost:${port}`);
 
 app.get('/', (req, res) => {
     res.send(`
@@ -27,18 +27,56 @@ app.get('/', (req, res) => {
 
 
 app.post('/api/battery/', (req, res) => {
-    const data = req.body;
-    battery_info.setTemp(data.temp);
-    battery_info.setVoltage(data.voltage);
-    res.status(200).send("ok");
+    try {
+        const data = req.body;
+        if (!data) {
+            res.status(400).send('request body is required');
+        }
+        if (!data.temp) {
+            res.status(400).send('temp is required');
+        }
+        if (!data.voltage) {
+            res.status(400).send('voltage is required');
+        }
+        if (isNaN(data.temp)) {
+            res.status(400).send('temp must be a number');
+        }
+        if (isNaN(data.voltage)) {
+            res.status(400).send('voltage must be a number');
+        }
+        battery_info.setTemp(data.temp);
+        battery_info.setVoltage(data.voltage);
+        res.status(200).send("ok");
+    } catch (err) {
+        res.status(500).send(err);
+    }
 })
 
 
 app.post('/api/speed/', (req, res) => {
-    const data = req.body;
-    speed_info.setSpeed(data.speed);
-    speed_info.setAccel(data.accel);
-    res.status(200).send("ok");
+    try {
+        const data = req.body;
+        if (!data) {
+            res.status(400).send('request body is required');
+        }
+        if (!data.speed) {
+            res.status(400).send('speed is required');
+        }
+        if (!data.accel) {
+            res.status(400).send('accel is required');
+        }
+        if (isNaN(data.speed)) {
+            res.status(400).send('speed must be a number');
+        }
+        if (isNaN(data.accel)) {
+            res.status(400).send('accel must be a number');
+        }
+        speed_info.setSpeed(data.speed);
+        speed_info.setAccel(data.accel);
+        res.status(200).send("ok");
+    } catch (err) {
+        res.status(500).send(err);
+    }
 })
 
 
