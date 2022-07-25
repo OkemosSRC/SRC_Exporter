@@ -99,6 +99,6 @@ app.get('/metrics', (req, res) => {
 
 
 app.listen(port, () => {
-    console.log(`SRC App listening on http://localhost:${port}`);
+    console.log(`SRC Exporter listening on http://localhost:${port}`);
     console.log(`Metrics: http://localhost:${port}/metrics`);
 });

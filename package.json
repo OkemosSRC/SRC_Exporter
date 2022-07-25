@@ -24,5 +24,15 @@
     "url": "https://github.com/OkemosSRC/SRC_Exporter/issues"
   },
   "homepage": "https://github.com/OkemosSRC/SRC_Exporter#readme",
-  "description": ""
+  "description": "Okemos Solar Racing Club data exporter for Prometheus and Grafana monitoring.",
+  "devDependencies": {},
+  "keywords": [
+    "okemos",
+    "solar",
+    "racing",
+    "okemos-src",
+    "solar-racing",
+    "green-energy",
+    "solar-energy"
+  ]
 }
