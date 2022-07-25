@@ -41,6 +41,8 @@ npm test
 
 The sample data generator will then submit sinusoidal data to the SRC Exporter.
 
+### Tokens
+
 Hashes of some tokens are stored in the `lib/hashes.txt` file.
 
 Token - Hash pairs can be generated with the following code:
