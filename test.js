@@ -19,7 +19,7 @@ if (config.endpoint_url === "") {
 
 
 if (!config.endpoint_url.startsWith("http")) {
-    console.error("endpoint_url include protocol (http or https)");
+    console.error("endpoint_url must include http or https");
     process.exit(1);
 }
 
