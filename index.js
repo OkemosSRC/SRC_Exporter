@@ -1,16 +1,14 @@
 const express = require('express');
 const Battery = require('./lib/battery');
-const Speed = require('./lib/speed')
-// const fake_data = require('./lib/fake_data');
+const Speed = require('./lib/speed');
+const {verify_token_from_file} = require('./lib/auth');
 const app = express();
 const port = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
-
 battery_info = new Battery();
 speed_info = new Speed();
 
-// fake_data(`http://localhost:${port}`);
 
 app.get('/', (req, res) => {
     res.send(`
@@ -32,6 +30,9 @@ app.post('/api/battery/', (req, res) => {
         if (!data) {
             res.status(400).send('request body is required');
         }
+        if (!data.auth) {
+            res.status(403).send('token is required');
+        }
         if (!data.temp) {
             res.status(400).send('temp is required');
         }
@@ -44,9 +45,13 @@ app.post('/api/battery/', (req, res) => {
         if (isNaN(data.voltage)) {
             res.status(400).send('voltage must be a number');
         }
-        battery_info.setTemp(data.temp);
-        battery_info.setVoltage(data.voltage);
-        res.status(200).send("ok");
+        if (verify_token_from_file(data.auth)) {
+            battery_info.setTemp(data.temp);
+            battery_info.setVoltage(data.voltage);
+            res.status(200).send("ok");
+        } else {
+            res.status(403).send('invalid token');
+        }
     } catch (err) {
         res.status(500).send(err);
     }
@@ -58,6 +63,9 @@ app.post('/api/speed/', (req, res) => {
         const data = req.body;
         if (!data) {
             res.status(400).send('request body is required');
+        }
+        if (!data.auth) {
+            res.status(403).send('token is required');
         }
         if (!data.speed) {
             res.status(400).send('speed is required');
@@ -71,9 +79,13 @@ app.post('/api/speed/', (req, res) => {
         if (isNaN(data.accel)) {
             res.status(400).send('accel must be a number');
         }
-        speed_info.setSpeed(data.speed);
-        speed_info.setAccel(data.accel);
-        res.status(200).send("ok");
+        if (verify_token_from_file(data.auth)) {
+            speed_info.setSpeed(data.speed);
+            speed_info.setAccel(data.accel);
+            res.status(200).send("ok");
+        } else {
+            res.status(403).send('invalid token');
+        }
     } catch (err) {
         res.status(500).send(err);
     }

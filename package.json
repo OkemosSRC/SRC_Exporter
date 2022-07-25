@@ -16,7 +16,6 @@
   "directories": {
     "lib": "lib"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OkemosSRC/SRC_Exporter.git"
