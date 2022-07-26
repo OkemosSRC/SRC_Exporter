@@ -1,6 +1,7 @@
 const express = require('express');
 const Battery = require('./lib/battery');
 const Speed = require('./lib/speed');
+const exporter_ver = require('./lib/exporter_ver');
 const {verify_token_from_file} = require('./lib/auth');
 const app = express();
 const port = process.env.PORT || 8080;
@@ -94,7 +95,7 @@ app.post('/api/speed/', (req, res) => {
 
 app.get('/metrics', (req, res) => {
     res.set('Content-Type', 'text/plain');
-    res.send(battery_info.getTemp() + battery_info.getVoltage() + speed_info.getSpeed() + speed_info.getAccel());
+    res.send(exporter_ver() + battery_info.getTemp() + battery_info.getVoltage() + speed_info.getSpeed() + speed_info.getAccel());
 });
 
 
