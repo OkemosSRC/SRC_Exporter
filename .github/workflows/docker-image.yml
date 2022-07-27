@@ -16,6 +16,13 @@ jobs:
       packages: write
 
     steps:
+      - name: Get current time
+        uses: josStorer/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYYMMDD-HH
+          utcOffset: "-04:00"
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -39,5 +46,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: GIT_COMMIT=${{ github.sha }}
-
+          build-args: |
+            GIT_COMMIT=${{ github.sha }}
+            TIME=${{ steps.current-time.outputs.time }}
