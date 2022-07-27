@@ -28,7 +28,7 @@ Example:
 const config = {
     token: "A0b1C2d3E4f5G6", // replace with your token
     endpoint_url: "https://example.com" // replace with your endpoint url 
-    // execlding any directory paths but including the protocol (http:// or https://)
+    // excluding any directory paths but including the protocol (http:// or https://).
 }
 ```
 
