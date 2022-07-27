@@ -16,13 +16,6 @@ jobs:
       packages: write
 
     steps:
-      - name: Get current time
-        uses: josStorer/get-current-time@v2
-        id: current-time
-        with:
-          format: YYYYMMDD-HH
-          utcOffset: "-04:00"
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -38,6 +31,13 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Get current time
+        uses: josStorer/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYYMMDD-HH
+          utcOffset: "-04:00"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
