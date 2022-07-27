@@ -2,7 +2,7 @@ name: Docker CI
 
 on:
   push:
-    branches: ['main']
+    branches: [ 'main' ]
 
 env:
   REGISTRY: ghcr.io
@@ -39,3 +39,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          args: GIT_COMMIT=${{ github.sha }}
+
