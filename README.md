@@ -12,7 +12,7 @@ It is strongly recommended to run the exporter in a [Docker Container](https://w
 Run SRC Exporter in a Docker Container with the following command:
 
 ```bash
-docker run -p 8090:8080 --name src_exporter -d ghcr.io/okemossrc/src_exporter:main
+docker run -p 8090:8080 --name src-exporter -d ghcr.io/okemossrc/src_exporter:main
 ```
 
 The SRC Exporter metrics will be available at http://localhost:8090/metrics
