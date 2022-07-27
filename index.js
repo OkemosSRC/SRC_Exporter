@@ -1,6 +1,7 @@
 const express = require('express');
 const Battery = require('./lib/battery');
 const Speed = require('./lib/speed');
+const Timeout = require('./lib/timeout');
 const exporter_build = require('./lib/exporter_build');
 const {verify_token_from_file} = require('./lib/auth');
 const app = express();
@@ -9,6 +10,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 battery_info = new Battery();
 speed_info = new Speed();
+timeout = new Timeout();
 
 
 app.get('/', (req, res) => {
@@ -47,6 +49,7 @@ app.post('/api/battery/', (req, res) => {
             res.status(400).send('voltage must be a number');
         }
         if (verify_token_from_file(data.auth)) {
+            timeout.resetTimeout();
             battery_info.setTemp(data.temp);
             battery_info.setVoltage(data.voltage);
             res.status(200).send("ok");
@@ -81,6 +84,7 @@ app.post('/api/speed/', (req, res) => {
             res.status(400).send('accel must be a number');
         }
         if (verify_token_from_file(data.auth)) {
+            timeout.resetTimeout();
             speed_info.setSpeed(data.speed);
             speed_info.setAccel(data.accel);
             res.status(200).send("ok");
@@ -95,7 +99,7 @@ app.post('/api/speed/', (req, res) => {
 
 app.get('/metrics', (req, res) => {
     res.set('Content-Type', 'text/plain');
-    res.send(exporter_build() + battery_info.getTemp() + battery_info.getVoltage() + speed_info.getSpeed() + speed_info.getAccel());
+    res.send(battery_info.getTemp() + battery_info.getVoltage() + speed_info.getSpeed() + speed_info.getAccel() + timeout.getTimeout() + exporter_build());
 });
 
 
